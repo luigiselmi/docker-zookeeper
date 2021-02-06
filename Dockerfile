@@ -35,6 +35,8 @@ RUN cp $ZOOKEEPER_HOME/conf/zoo_sample.cfg $ZOOKEEPER_HOME/conf/zoo.cfg
 # Copy the entrypoint script
 COPY startup /startup
 
+EXPOSE 2181
+
 # Start Zookeeper
 WORKDIR /
 ENTRYPOINT ["./startup"]
