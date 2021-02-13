@@ -1,20 +1,15 @@
 # Dockerfile for Zookeeper
 # To build an image using this docker file, execute the following command
 #
-# $ docker build -t lgslm/zookeeper .
+# $ docker build -t lgslm/zookeeper:v1.0.0 .
 #
 # To run a container and log into it execute the command
 # 
-# $ docker run --rm -it --name zookeeper lgslm/zookeeper bash
+# $ docker run --rm -it --name zookeeper lgslm/zookeeper:v1.0.0 bash
 #
 FROM openjdk:8
 
 MAINTAINER Luigi Selmi <luigi@datiaperti.it>
-COPY apache-zookeeper-3.6.2-bin.tar.gz /usr/local/apache-zookeeper-3.6.2-bin.tar.gz
-WORKDIR /usr/local/
-RUN tar xvf apache-zookeeper-3.6.2-bin.tar.gz
-RUN rm apache-zookeeper-3.6.2-bin.tar.gz
-ENV ZOOKEEPER_HOME=/usr/local/apache-zookeeper-3.6.2-bin
 
 # Install  network tools (ifconfig, netstat, ping, ip)
 RUN apt-get update && \
@@ -25,6 +20,14 @@ RUN apt-get update && \
 # Install vi for editing
 RUN apt-get update && \
     apt-get install -y vim
+
+# Install Zookeeper from a mirror
+WORKDIR /usr/local/
+RUN wget https://mirror.efect.ro/apache/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz && \
+    tar xvf apache-zookeeper-3.6.2-bin.tar.gz && \
+    rm apache-zookeeper-3.6.2-bin.tar.gz
+
+ENV ZOOKEEPER_HOME=/usr/local/apache-zookeeper-3.6.2-bin
 
 # Create a simbolinc link to Zookeeper
 RUN ln -s $ZOOKEEPER_HOME /zookeeper
