@@ -34,12 +34,13 @@ RUN ln -s $ZOOKEEPER_HOME /zookeeper
 
 # Make a copy of zoo_sample.cfg
 RUN cp $ZOOKEEPER_HOME/conf/zoo_sample.cfg $ZOOKEEPER_HOME/conf/zoo.cfg
+#COPY zoo.cfg $ZOOKEEPER_HOME/conf/zoo.cfg
 
 # Copy the entrypoint script
-COPY startup /startup
+COPY startup.sh /startup.sh
 
 EXPOSE 2181
 
 # Start Zookeeper
 WORKDIR /
-ENTRYPOINT ["./startup"]
+ENTRYPOINT ["./startup.sh"]
