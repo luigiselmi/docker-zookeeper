@@ -1,5 +1,9 @@
 docker-zookeeper
 ================
+This repository contains a Docker file and a docker-compose file to deploy Zookeeper on a single node (standalone)
+or in a cluster (quorum). [Zookeeper](https://zookeeper.apache.org/) is used to coordinate servers and tasks of many
+distributed frameworks such as Apache Hbase, Apache Solr and Apache Kafka.
+  
 ## standalone mode
 A docker image for [Zookeeper](https://zookeeper.apache.org/). ZooKeeper is a centralized naming and synchronization 
 service used by some distributed applications such as Apache Kafka and Apache Solr. The image can be run alone or in 
