@@ -5,9 +5,8 @@ or in a cluster (quorum). [Zookeeper](https://zookeeper.apache.org/) is used to 
 distributed frameworks such as Apache Hbase, Apache Solr and Apache Kafka.
   
 ## standalone mode
-A docker image for [Zookeeper](https://zookeeper.apache.org/). ZooKeeper is a centralized naming and synchronization 
-service used by some distributed applications such as Apache Kafka and Apache Solr. The image can be run alone or in 
-a cluster. To build an image using the docker file, execute the following command
+A Docker file is available to build an image of Zookeeper from the binary file (version 3.6.2) to run in standalone mode. 
+To build execute the following command
 
     $ docker build -t lgslm/zookeeper:v1.0.0 .
 
@@ -25,3 +24,37 @@ command
     $ docker pull zookeeper
 
   
+Once we are done with this step we have to choose a node as the manager of the cluster while the other will have the role 
+of worker nodes. The Docker engine in the manager node wil have to be switched to swarm mode and the worker will have join 
+the swarm. How to create a docker swarm is described on the [Docker web site](https://docs.docker.com/engine/swarm/) and 
+it's quite straightforward. The set up described in this section has been tested on a small cluster of three EC2 servers 
+on the Amazon cloud. The following protocols and ports (inbound rules) must be allowed in the security group used by the 
+EC2 servers so that the swarm master and workers can communicate
+
+* TCP port 2377 for cluster management communications
+* TCP and UDP port 7946 for communication among nodes
+* UDP port 4789 for overlay network traffic
+* TCP port 5601 Kibana
+
+After the swarm has been created, with a manager and the workers, we can check that they are available and ready by executing 
+the following command on the manager node
+
+    $ docker node ls
+
+All the containers in the cluster must be member of an overlay network in order to use a DNS and be able to use the host names 
+instead of their IP addresses. We create the network, e.g. kafka-clients-net, from the manager node with the command
+
+    $ docker network create -d overlay --attachable kafka-clients-net
+
+The Zookeeper services in the docker-compose file are all members of the same network. The docker image used in the docker-compose 
+file should be pulled automatically from Docker Hub from the master node and installed also in the worker nodes but it may fail in 
+the worker nodes on the Amazon cloud. One easy way to bypass this potential problem is to manually pull the required images on each 
+EC2 instance. When the Zookeeper image is available on each node we can deploy the stack of Zookeeper services on the swarm using 
+the docker-compose file from the master node
+
+    $ docker stack deploy --compose-file docker-compose-zookeeper-ensemble.yml zookeeper-stack
+
+We name this stack zookeeper-stack. We can see the Zookeeper services started and also in which node they have been deployed using 
+the command
+
+    $ docker stack ps zookeeper-stack
