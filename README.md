@@ -34,7 +34,6 @@ EC2 servers so that the swarm master and workers can communicate
 * TCP port 2377 for cluster management communications
 * TCP and UDP port 7946 for communication among nodes
 * UDP port 4789 for overlay network traffic
-* TCP port 5601 Kibana
 
 After the swarm has been created, with a manager and the workers, we can check that they are available and ready by executing 
 the following command on the manager node
