@@ -57,3 +57,8 @@ We name this stack zookeeper-stack. We can see the Zookeeper services started an
 the command
 
     $ docker stack ps zookeeper-stack
+
+The stack of Zookeeper services can be removed from the swarm and the Zookeeper servers stopped using the command
+
+    $ docker stack rm zookeeper-stack
+
