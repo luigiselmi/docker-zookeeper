@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  zoo1:
+  zookeeper1:
     image: zookeeper
     restart: always
     hostname: zoo1
@@ -13,7 +13,7 @@ services:
     networks:
       - kafka-clients-net
 
-  zoo2:
+  zookeeper2:
     image: zookeeper
     restart: always
     hostname: zoo2
@@ -25,7 +25,7 @@ services:
     networks:
       - kafka-clients-net
 
-  zoo3:
+  zookeeper3:
     image: zookeeper
     restart: always
     hostname: zoo3
