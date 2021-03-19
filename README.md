@@ -24,7 +24,7 @@ Once the container is started connect to it by executing the command
 
     $ docker exec -it zookeeper bash
 
-From the container you can connect to a Zookeeper server of the cluster, e.g. zoo1 listening port 2181 
+From the container you can connect to a Zookeeper server of the cluster, e.g. zoo1 listening on port 2181 
 
     # zookeeper/bin/zkCli.sh -server zoo1:2181 
 
