@@ -14,8 +14,9 @@ To run a container and log into it execute the command
  
     $ docker run --rm -it --name zookeeper lgslm/zookeeper:v1.0.0 bash
 
-The container in standalone mode can be used to connect to a Zookeeper server in a cluster by using the zkClient to check
-whether is running or not. The container must be member of the same cluster overlay network, e.g. kafka-clients-net
+The container in standalone mode can be used to connect to a Zookeeper server in a cluster by using the client tool zkCli.sh 
+to check whether a server is running or not. The container must be member of the same overlay network of the cluster, e.g. 
+kafka-clients-net
 
     $ docker run --rm -d -it --name zookeeper --network kafka-clients-net lgslm/zookeeper:v1.0.0 bash
 
